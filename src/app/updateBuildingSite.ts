@@ -25,6 +25,7 @@ export const buildUpdateBuildingSite = (
       buildingLimits,
       splitBuildingLimits
     );
+
     if (areaDifference > 0.1) {
       throw new BadInputError(
         "Height plateaus do not cover the building limits"

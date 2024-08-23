@@ -1,14 +1,12 @@
 import { BuildingSiteRepository } from "../repositories/buildingSiteRepository";
 import { buildCreateNewBuildingSite } from "./createNewBuildingSite";
 import { buildGetBuildingSite } from "./getBuildingSite";
+import { buildUpdateBuildingSite } from "./updateBuildingSite";
 
 interface App {
   createNewProject: ReturnType<typeof buildCreateNewBuildingSite>;
   getProject: ReturnType<typeof buildGetBuildingSite>;
-  updateProject: (
-    id: string,
-    project: { buildingLimits: any; heightPlateaus: any }
-  ) => void;
+  updateProject: ReturnType<typeof buildUpdateBuildingSite>;
 }
 
 export const buildApp: (
@@ -17,8 +15,6 @@ export const buildApp: (
   return {
     createNewProject: buildCreateNewBuildingSite(buildingSiteRepository),
     getProject: buildGetBuildingSite(buildingSiteRepository),
-    updateProject: (id, project) => {
-      console.log("id", id, project);
-    },
+    updateProject: buildUpdateBuildingSite(buildingSiteRepository),
   };
 };
