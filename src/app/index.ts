@@ -1,7 +1,7 @@
 import { BuildingSiteRepository } from "../repositories/buildingSiteRepository";
-import { buildCreateNewBuildingSite } from "./createNewBuildingSite";
-import { buildGetBuildingSite } from "./getBuildingSite";
-import { buildUpdateBuildingSite } from "./updateBuildingSite";
+import { buildCreateNewBuildingSite } from "./useCases/createNewBuildingSite";
+import { buildGetBuildingSite } from "./useCases/getBuildingSite";
+import { buildUpdateBuildingSite } from "./useCases/updateBuildingSite";
 
 interface App {
   createNewProject: ReturnType<typeof buildCreateNewBuildingSite>;

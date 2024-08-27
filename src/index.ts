@@ -58,15 +58,16 @@ app.get("/project/:id", async (req, res, next) => {
   }
 });
 
-app.patch("/project/:id", async (req, res, next) => {
+app.put("/project/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
-    const { building_limits, height_plateaus } = req.body;
+    const { building_limits, height_plateaus, version } = req.body;
 
     await buildingSiteApp.updateProject({
       id,
       buildingLimits: building_limits.features,
       heightPlateaus: height_plateaus.features,
+      versionNumber: version,
     });
     res.send("Project updated");
   } catch (err) {

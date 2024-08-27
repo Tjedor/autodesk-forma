@@ -2,6 +2,7 @@ import {
   addDoc,
   collection,
   doc,
+  DocumentData,
   Firestore,
   getDoc,
   setDoc,
@@ -35,12 +36,16 @@ const mapDBEntryToHeightPlateau: (data: any) => HeightPlateau[] = (data) => {
   throw new Error("Invalid data");
 };
 
-const mapDBEntryToBuildingSite = (data: any) => {
+const mapDBEntryToBuildingSite = (id: string, data: DocumentData) => {
+  const parsedData = JSON.parse(data.data);
   return {
-    buildingLimits: mapDBEntryToBuildingLimit(data.buildingLimits),
-    heightPlateaus: mapDBEntryToHeightPlateau(data.heightPlateaus),
-    splitBuildingLimits: mapDBEntryToHeightPlateau(data.splitBuildingLimits),
-    id: data.id,
+    buildingLimits: mapDBEntryToBuildingLimit(parsedData.buildingLimits),
+    heightPlateaus: mapDBEntryToHeightPlateau(parsedData.heightPlateaus),
+    splitBuildingLimits: mapDBEntryToHeightPlateau(
+      parsedData.splitBuildingLimits
+    ),
+    id,
+    version: data.version,
   };
 };
 
@@ -62,6 +67,7 @@ export const buildBuildingSiteRepository = (fireBaseDB: Firestore) => ({
         heightPlateaus,
         splitBuildingLimits,
       }),
+      version: 0,
     });
 
     return {
@@ -73,14 +79,19 @@ export const buildBuildingSiteRepository = (fireBaseDB: Firestore) => ({
     const docRef = doc(fireBaseDB, "buildingSite", id);
     const docSnap = (await getDoc(docRef)).data();
 
-    return mapDBEntryToBuildingSite(JSON.parse(docSnap?.data));
+    if (!docSnap) {
+      throw new Error("Document not found");
+    }
+
+    return mapDBEntryToBuildingSite(docRef.id, docSnap);
   },
 
   updateBuildingSite: async (
     id: string,
     buildingLimits: BuildingLimit[],
     heightPlateaus: HeightPlateau[],
-    splitBuildingLimits: HeightPlateau[]
+    splitBuildingLimits: HeightPlateau[],
+    newVersionNumber: number
   ) => {
     const docRef = doc(fireBaseDB, "buildingSite", id);
     await setDoc(docRef, {
@@ -89,6 +100,7 @@ export const buildBuildingSiteRepository = (fireBaseDB: Firestore) => ({
         heightPlateaus,
         splitBuildingLimits,
       }),
+      version: newVersionNumber,
     });
   },
 });

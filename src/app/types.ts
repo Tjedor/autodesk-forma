@@ -22,6 +22,14 @@ export type HeightPlateau = {
   };
 };
 
+export type BuildingSite = {
+  buildingLimits: BuildingLimit[];
+  heightPlateaus: HeightPlateau[];
+  splitBuildingLimits: HeightPlateau[];
+  id: string;
+  version: number;
+};
+
 export class BadInputError extends Error {
   constructor(msg: string) {
     super(msg);

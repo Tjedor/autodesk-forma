@@ -1,9 +1,9 @@
-import { BuildingSiteRepository } from "../repositories/buildingSiteRepository";
+import { BuildingSiteRepository } from "../../repositories/buildingSiteRepository";
 import {
   calculateAreaDifference,
   calculateSplitBuildingLimits,
-} from "./helpers";
-import { BadInputError, BuildingLimit, HeightPlateau } from "./types";
+} from "../helpers";
+import { BadInputError, BuildingLimit, HeightPlateau } from "../types";
 
 type CreateNewBuildingSiteInput = {
   buildingLimits: BuildingLimit[];

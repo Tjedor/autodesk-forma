@@ -1,5 +1,5 @@
-import { BuildingSiteRepository } from "../repositories/buildingSiteRepository";
-import { calculateAreaDifference } from "./helpers";
+import { BuildingSiteRepository } from "../../repositories/buildingSiteRepository";
+import { calculateAreaDifference } from "../helpers";
 
 export const buildGetBuildingSite = (
   buildingSiteRepository: BuildingSiteRepository

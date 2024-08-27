@@ -1,9 +1,9 @@
-import { BuildingSiteRepository } from "../repositories/buildingSiteRepository";
+import { BuildingSiteRepository } from "../../repositories/buildingSiteRepository";
 import {
   calculateAreaDifference,
   calculateSplitBuildingLimits,
-} from "./helpers";
-import { BadInputError, BuildingLimit, HeightPlateau } from "./types";
+} from "../helpers";
+import { BadInputError, BuildingLimit, HeightPlateau } from "../types";
 
 export const buildUpdateBuildingSite = (
   buildingSiteRepository: BuildingSiteRepository
@@ -12,10 +12,12 @@ export const buildUpdateBuildingSite = (
     id,
     buildingLimits,
     heightPlateaus,
+    versionNumber,
   }: {
     id: string;
     buildingLimits: BuildingLimit[];
     heightPlateaus: HeightPlateau[];
+    versionNumber: number;
   }) => {
     const splitBuildingLimits = calculateSplitBuildingLimits(
       buildingLimits,
@@ -32,11 +34,19 @@ export const buildUpdateBuildingSite = (
       );
     }
 
+    const { version } = await buildingSiteRepository.getBuildingSite(id);
+
+    if (version !== versionNumber) {
+      throw new BadInputError("Version number is outdated");
+    }
+
     await buildingSiteRepository.updateBuildingSite(
       id,
       buildingLimits,
       heightPlateaus,
-      splitBuildingLimits
+      splitBuildingLimits,
+      versionNumber + 1
     );
+    return undefined;
   };
 };

@@ -1,7 +1,7 @@
 import { describe, test, expect } from "@jest/globals";
-import { buildApp } from ".";
-import { BuildingLimit, HeightPlateau } from "./types";
-import { BuildingSiteRepository } from "../repositories/buildingSiteRepository";
+import { buildApp } from "..";
+import { BuildingLimit, HeightPlateau } from "../types";
+import { BuildingSiteRepository } from "../../repositories/buildingSiteRepository";
 
 const testInput = {
   building_limits: {
